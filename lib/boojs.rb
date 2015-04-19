@@ -47,16 +47,13 @@ module BooJS
         system.stderr.writeLine("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         phantom.exit(1);
       }
-
-      while (true) { 
-        var line = system.stdin.readLine();
-        eval(line);
-      }
     }
+    
+    #Any code the user wanted
+    js += "\n#{str}" if str
 
-    if str
-      js += "\n#{str}"
-    end
+    #Repl
+    js += "\nwhile (true) { var line = system.stdin.readLine(); eval(line); }"
 
     phantom = Phantomjs.path
     tmp = Tempfile.new(SecureRandom.hex)
