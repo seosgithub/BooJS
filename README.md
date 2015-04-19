@@ -30,9 +30,9 @@ Open a standard headless javascript browser REPL
 (sh)>boojs
 ```
 
-Pipe in a file
+Execute a file first, then enter pipe mode (repl like)
 ```sh
-(sh)>boojs < code.js
+(sh)>boojs code.js
 ```
 
 Verify that a file contains no javascript errors
