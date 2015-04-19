@@ -1,4 +1,4 @@
-![boojs: A ruby library for managing GitHub pull requests](https://raw.githubusercontent.com/sotownsend/boojs/master/logo.png)
+![boojs: A unix tool to execute headless browser javascript](https://raw.githubusercontent.com/sotownsend/boojs/master/logo.png)
 
 [![Gem Version](https://badge.fury.io/rb/boojs.svg)](http://badge.fury.io/rb/boojs)
 [![Build Status](https://travis-ci.org/sotownsend/boojs.svg?branch=master)](https://travis-ci.org/sotownsend/boojs)
@@ -6,43 +6,32 @@
 [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/boojs/blob/master/LICENSE)
 
 # What is this?
-boojs was purpose built for Fittr® to provide information from our gocd server to our slack channel.  This is a standalone server that relays gocd information directly to slack.  **It is not a gocd plugin and relies on gocd's API for communication**.  Currently will monitor all pipelines for activity.
+A simple tool that allows you to execute javascript in the command line as if you were in a browser. Built on-top of [PhantomJS](phantomjs.org) and 
+addresess it's shortcomings as a unix tool.
 
-# What it looks like
-
-###Failing will post a random fail gif
-![Fail](https://raw.githubusercontent.com/sotownsend/boojs/master/fail.gif)
-
-###Passing
-![Pass](https://raw.githubusercontent.com/sotownsend/boojs/master/pass.gif)
-
-###Cancelling
-![Cancelled](https://raw.githubusercontent.com/sotownsend/boojs/master/cancelled.gif)
-
-# What's gocd?
-[Go | Continuous Deployment](http://www.go.cd/) is a free and open source deployment server.
-
-# Installation
 ```sh
 #Setup
 gem install boojs
-
-#Run using a service hook with the name 'bot_name' for the gocd server installed on localhost at 8513
-#You *must* use http:// at the beginning for the gocd server host otherwise slack will *not* generate links
-gocdss http://localhost:8153" https://hooks.slack.com/services/..." "bot_name"
-
-#Or, optionally, you may add your username to the end
-gocdss http://localhost:8153" https://hooks.slack.com/services/..." "bot_name" "username:pass"
 ```
 
 # Usage
 ```sh
-gocdss <gocd_hostname> <slack_hook_url> <bot_name> [<user>:<pass>]
+boojs [-v file]
 ```
+
+There are two modes of operating.
+
+
+1. If you pass the `-v` flag with a file, boojs will `validate` the javascript file you passed. If it contains any syntax errors, or anything that would crash the execution of the javascript file, these are caught here. Useful for unit tests to make sure the JS files are executable. It will return 0 if the file and not 0 if otherwise
+
+`boojs -v file_to_check.js`
+
+2. If you do not pass the `-v` flag, boojs will accept JS input from stdin and emit JS output on stdout. If there is an exception, boojs 
+will output the exception to stderr and return not 0. In all other cases, boojs will not exit and you must send SIGINT to the process.
+
 
 ## Requirements
 
-- curl
 - Ruby 2.1 or Higher
 
 ## Communication
@@ -57,7 +46,7 @@ gocdss <gocd_hostname> <slack_hook_url> <bot_name> [<user>:<pass>]
 
 ### When should I use boojs?
 
-When you want to announce to slack users what gocd is up to
+When you need to test javascript code that needs to run in a browser but don't necessarily need to test the UI components.
 
 ### What's Fittr?
 
