@@ -15,17 +15,32 @@ gem install boojs
 ```
 
 # Usage
+#### SYNOPSIS
 ```sh
 boojs [-v file]
 ```
 
-There are two modes of operating.
+#### DESCRIPTION
+The following options are available:
+ * `-v` - Verify that a file contains no javascript syntax errors. Returns 0 if there are no errors.
 
+#### EXAMPLES
+Open a standard headless javascript browser REPL
+```sh
+(sh)>boojs
+```
 
- 1. If you pass the `-v` flag with a file, boojs will `validate` the javascript file you passed. If it contains any syntax errors, or anything that would crash the execution of the javascript file, these are caught here. Useful for unit tests to make sure the JS files are executable. It will return 0 if the file is valid and 1 if the file is not valid.
- 2. If you do not pass the `-v` flag, boojs will accept JS input from stdin and emit JS output on stdout. If there is an exception, boojs 
-will output the exception to stderr and return 1. In all other cases, boojs will not exit and you must send SIGINT to the process.
+Pipe in a file
+```sh
+(sh)>boojs < code.js
+```
 
+Verify that a file contains no javascript errors
+```sh
+(sh)>boojs -v code.js
+(sh)>echo $?
+0
+```
 
 ## Requirements
 
