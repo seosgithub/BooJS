@@ -1,9 +1,9 @@
 ![boojs: A unix tool to execute headless browser javascript](https://raw.githubusercontent.com/sotownsend/boojs/master/logo.png)
 
-[![Gem Version](https://badge.fury.io/rb/boojs.svg)](http://badge.fury.io/rb/boojs)
-[![Build Status](https://travis-ci.org/sotownsend/boojs.svg?branch=master)](https://travis-ci.org/sotownsend/boojs)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/sotownsend/boojs/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/boojs/blob/master/LICENSE)
+[![Gem Version](https://badge.fury.io/rb/BooJS.svg)](http://badge.fury.io/rb/boojs)
+[![Build Status](https://travis-ci.org/sotownsend/BooJS.svg?branch=master)](https://travis-ci.org/sotownsend/boojs)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/sotownsend/BooJS/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/BooJS/blob/master/LICENSE)
 
 # What is this?
 A simple tool that allows you to execute javascript in the command line as if you were in a browser. Built on-top of [PhantomJS](phantomjs.org) and 
