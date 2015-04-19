@@ -13,6 +13,10 @@
 A simple tool that allows you to execute javascript in the command line as if you were in a browser. Built on-top of [PhantomJS](phantomjs.org) and
 acts as a well-behaved unix tool.
 
+# Why is this different than NodeJS?
+They are for different things. BooJS gives you the full DOM, you can call `document` in BooJS and import arbitrary browser javascript libraries.
+
+# Setup
 ```sh
 #Setup
 gem install boojs
