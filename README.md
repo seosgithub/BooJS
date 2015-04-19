@@ -1,9 +1,9 @@
 ![boojs: A ruby library for managing GitHub pull requests](https://raw.githubusercontent.com/sotownsend/boojs/master/logo.png)
 
-[![Gem Version](https://badge.fury.io/rb/boojs.svg)](http://badge.fury.io/rb/boojs)
-[![Build Status](https://travis-ci.org/sotownsend/boojs.svg?branch=master)](https://travis-ci.org/sotownsend/boojs)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/sotownsend/boojs/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/boojs/blob/master/LICENSE)
+[![Gem Version](https://badge.fury.io/rb/BooJS.svg)](http://badge.fury.io/rb/boojs)
+[![Build Status](https://travis-ci.org/sotownsend/BooJS.svg?branch=master)](https://travis-ci.org/sotownsend/boojs)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/sotownsend/BooJS/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/BooJS/blob/master/LICENSE)
 
 # What is this?
 boojs was purpose built for Fittr® to provide information from our gocd server to our slack channel.  This is a standalone server that relays gocd information directly to slack.  **It is not a gocd plugin and relies on gocd's API for communication**.  Currently will monitor all pipelines for activity.
