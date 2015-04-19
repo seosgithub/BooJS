@@ -1,5 +1,6 @@
 require 'tempfile'
 require 'securerandom'
+require 'greenletters'
 
 module BooJS
   def self.verify str
@@ -25,5 +26,36 @@ module BooJS
     tmp.close
 
     system("phantomjs #{tmp.path} 2>&1") or raise "Verifying failed"
+  end
+
+  def self.pipe
+    js = %{
+      var system = require('system');
+      function __spec_ping(str) {
+        system.stdout.writeLine("pong"+str)
+      }
+
+      phantom.onError = function(msg, trace) {
+        system.stderr.writeLine("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        system.stderr.writeLine("PhantomJS Error");
+        system.stderr.writeLine("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        system.stderr.writeLine(msg);
+        trace.forEach(function(t) {
+          system.stderr.writeLine(t.file + ': line ' + t.line );
+        })
+        system.stderr.writeLine("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        phantom.exit(1);
+      }
+
+      while (true) { 
+        var line = system.stdin.readLine();
+        eval(line);
+      }
+    }
+    phantom = Phantomjs.path
+    tmp = Tempfile.new(SecureRandom.hex)
+    tmp.puts js
+    tmp.close
+    exit system("#{phantom} #{tmp.path}")
   end
 end

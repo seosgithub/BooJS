@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "phantomjs", "~> 1.9"
+  spec.add_runtime_dependency "greenletters", "~> 0.3"
   spec.executables << 'boojs'
 end
 

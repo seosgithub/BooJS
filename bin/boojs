@@ -18,4 +18,6 @@ parser.parse!
 #Run verify or run stdin/stdout mode?
 if @file
   BooJS.verify File.read(@file)
+else
+  BooJS.pipe
 end
