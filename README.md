@@ -1,23 +1,23 @@
-![gocd-slack-server: A ruby library for managing GitHub pull requests](https://raw.githubusercontent.com/sotownsend/gocd-slack-server/master/logo.png)
+![boojs: A ruby library for managing GitHub pull requests](https://raw.githubusercontent.com/sotownsend/boojs/master/logo.png)
 
-[![Gem Version](https://badge.fury.io/rb/gocd-slack-server.svg)](http://badge.fury.io/rb/gocd-slack-server)
-[![Build Status](https://travis-ci.org/sotownsend/gocd-slack-server.svg?branch=master)](https://travis-ci.org/sotownsend/gocd-slack-server)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/sotownsend/gocd-slack-server/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/gocd-slack-server/blob/master/LICENSE)
+[![Gem Version](https://badge.fury.io/rb/boojs.svg)](http://badge.fury.io/rb/boojs)
+[![Build Status](https://travis-ci.org/sotownsend/boojs.svg?branch=master)](https://travis-ci.org/sotownsend/boojs)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/sotownsend/boojs/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/boojs/blob/master/LICENSE)
 
 # What is this?
-gocd-slack-server was purpose built for Fittr® to provide information from our gocd server to our slack channel.  This is a standalone server that relays gocd information directly to slack.  **It is not a gocd plugin and relies on gocd's API for communication**.  Currently will monitor all pipelines for activity.
+boojs was purpose built for Fittr® to provide information from our gocd server to our slack channel.  This is a standalone server that relays gocd information directly to slack.  **It is not a gocd plugin and relies on gocd's API for communication**.  Currently will monitor all pipelines for activity.
 
 # What it looks like
 
 ###Failing will post a random fail gif
-![Fail](https://raw.githubusercontent.com/sotownsend/gocd-slack-server/master/fail.gif)
+![Fail](https://raw.githubusercontent.com/sotownsend/boojs/master/fail.gif)
 
 ###Passing
-![Pass](https://raw.githubusercontent.com/sotownsend/gocd-slack-server/master/pass.gif)
+![Pass](https://raw.githubusercontent.com/sotownsend/boojs/master/pass.gif)
 
 ###Cancelling
-![Cancelled](https://raw.githubusercontent.com/sotownsend/gocd-slack-server/master/cancelled.gif)
+![Cancelled](https://raw.githubusercontent.com/sotownsend/boojs/master/cancelled.gif)
 
 # What's gocd?
 [Go | Continuous Deployment](http://www.go.cd/) is a free and open source deployment server.
@@ -25,7 +25,7 @@ gocd-slack-server was purpose built for Fittr® to provide information from our 
 # Installation
 ```sh
 #Setup
-gem install gocd-slack-server
+gem install boojs
 
 #Run using a service hook with the name 'bot_name' for the gocd server installed on localhost at 8513
 #You *must* use http:// at the beginning for the gocd server host otherwise slack will *not* generate links
@@ -55,7 +55,7 @@ gocdss <gocd_hostname> <slack_hook_url> <bot_name> [<user>:<pass>]
 
 ## FAQ
 
-### When should I use gocd-slack-server?
+### When should I use boojs?
 
 When you want to announce to slack users what gocd is up to
 
@@ -71,4 +71,4 @@ Fittr is a SaaS company that focuses on providing personalized workouts and heal
 
 ## License
 
-gocd-slack-server is released under the MIT license. See LICENSE for details.
+boojs is released under the MIT license. See LICENSE for details.
