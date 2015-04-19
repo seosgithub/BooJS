@@ -22,11 +22,9 @@ boojs [-v file]
 There are two modes of operating.
 
 
-1. If you pass the `-v` flag with a file, boojs will `validate` the javascript file you passed. If it contains any syntax errors, or anything that would crash the execution of the javascript file, these are caught here. Useful for unit tests to make sure the JS files are executable. It will return 0 if the file and not 0 if otherwise
+ 1. If you pass the `-v` flag with a file, boojs will `validate` the javascript file you passed. If it contains any syntax errors, or anything that would crash the execution of the javascript file, these are caught here. Useful for unit tests to make sure the JS files are executable. It will return 0 if the file and not 0 if otherwise
 
-`boojs -v file_to_check.js`
-
-2. If you do not pass the `-v` flag, boojs will accept JS input from stdin and emit JS output on stdout. If there is an exception, boojs 
+ 2. If you do not pass the `-v` flag, boojs will accept JS input from stdin and emit JS output on stdout. If there is an exception, boojs 
 will output the exception to stderr and return not 0. In all other cases, boojs will not exit and you must send SIGINT to the process.
 
 
