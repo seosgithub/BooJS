@@ -5,7 +5,9 @@
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/sotownsend/BooJS/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/BooJS/blob/master/LICENSE)
 
-[![Usage GIF](https://raw.githubusercontent.com/sotownsend/boojs/master/usage.gif)]
+<p align="center">
+  <img src="https://raw.githubusercontent.com/sotownsend/boojs/master/usage.gif" />
+</p>
 
 # What is this?
 A simple tool that allows you to execute javascript in the command line as if you were in a browser. Built on-top of [PhantomJS](phantomjs.org) and 
