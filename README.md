@@ -10,8 +10,8 @@
 </p>
 
 # What is this?
-A simple tool that allows you to execute javascript in the command line as if you were in a browser. Built on-top of [PhantomJS](phantomjs.org) and 
-addresess it's shortcomings as a unix tool.
+A simple tool that allows you to execute javascript in the command line as if you were in a browser. Built on-top of [PhantomJS](phantomjs.org) and
+acts as a well-behaved unix tool.
 
 ```sh
 #Setup
@@ -21,7 +21,7 @@ gem install boojs
 # Usage
 #### SYNOPSIS
 ```sh
-boojs [-v file]
+boojs [-v file] [file]
 ```
 
 #### DESCRIPTION
@@ -29,7 +29,7 @@ The following options are available:
  * `-v` - Verify that a file contains no javascript syntax errors. Returns 0 if there are no errors.
 
 #### EXAMPLES
-Open a standard headless javascript browser REPL
+Open a standard headless javascript browser 'REPL'
 ```sh
 (sh)>boojs
 ```
