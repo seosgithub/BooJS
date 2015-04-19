@@ -28,7 +28,8 @@ module BooJS
     system("phantomjs #{tmp.path} 2>&1") or raise "Verifying failed"
   end
 
-  def self.pipe
+  #Optionally, accept code to inject
+  def self.pipe(str=nil)
     js = %{
       var system = require('system');
       function __spec_ping(str) {
@@ -52,6 +53,11 @@ module BooJS
         eval(line);
       }
     }
+
+    if str
+      js += "\n#{str}"
+    end
+
     phantom = Phantomjs.path
     tmp = Tempfile.new(SecureRandom.hex)
     tmp.puts js

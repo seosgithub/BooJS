@@ -6,18 +6,24 @@ require 'phantomjs'
 #Parse
 ##########################################
 parser = OptionParser.new do |opts|
-  opts.banner = "Usage: boojs [-v file]"
+  opts.banner = "Usage: boojs [-v file] [file]"
 
   opts.on "-v FILE" do |f|
-    @file = f
+    @vfile = f
   end
 end
 parser.parse!
+file = ARGV.pop
 ##########################################
 
+
 #Run verify or run stdin/stdout mode?
-if @file
+if @vfile
   BooJS.verify File.read(@file)
 else
-  BooJS.pipe
+  if file
+    BooJS.pipe File.read(file)
+  else
+    BooJS.pipe
+  end
 end
