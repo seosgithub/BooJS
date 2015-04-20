@@ -28,8 +28,9 @@ module BooJS
     system("phantomjs #{tmp.path} 2>&1") or raise "Verifying failed"
   end
 
-  #Optionally, accept code to inject
-  def self.pipe(str=nil)
+  #Optionally, accept code to inject and a command to run
+  #If the command is nil, this is not executed as a oneshot
+  def self.pipe(str=nil, cmd=nil)
     js = %{
       var system = require('system');
       function __spec_ping(str) {
@@ -53,7 +54,12 @@ module BooJS
     js += "\n#{str}" if str
 
     #Repl
-    js += "\nwhile (true) { var line = system.stdin.readLine(); eval(line); }"
+    if cmd
+      js += "\n#{cmd}"
+      js += "\nphantom.exit(1)"
+    else
+      js += "\nwhile (true) { var line = system.stdin.readLine(); eval(line); }"
+    end
 
     phantom = Phantomjs.path
     tmp = Tempfile.new(SecureRandom.hex)

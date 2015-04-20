@@ -3,12 +3,12 @@ require 'tempfile'
 require 'securerandom'
 
 describe "CLI" do
-  before(:all) do
+  before(:each) do
     #Laziness
     `ps -ax | grep phantomjs | grep -v phantomjs | awk '{print $1}' | xargs kill -9`
   end
 
- it "Will not exit in pipe mode" do
+  it "Will not exit in pipe mode" do
     @finished = false
     Thread.new do
       `ruby -I./lib ./bin/boojs`
@@ -90,5 +90,43 @@ describe "CLI" do
 
     sleep 5
     expect(@read).to eq("hello")
+  end
+
+  it "Can be passed a command as an argument with the -e flag for a one shot" do
+    Thread.new do
+      Open3.popen3(%{ruby -I./lib ./bin/boojs -e 'console.log("hello");'}) do |i, o, e, t|
+        @read = o.gets.chomp
+        @value = t.value
+      end
+    end
+
+    sleep 5
+    expect(@read).to eq("hello")
+    expect(@value).not_to eq(nil)
+  end
+
+  it "Can be passed a command as an argument with the -e flag for a one shot and a file" do
+    #Write to a temporary file
+    function_name = SecureRandom.hex
+    value = SecureRandom.hex
+    jsc = %{
+      function a_#{function_name}() {
+        console.log("#{value}");
+      }
+    }
+    f = Tempfile.new(SecureRandom.hex)
+    f.puts jsc
+    f.close
+
+    Thread.new do
+      Open3.popen3(%{ruby -I./lib ./bin/boojs -e 'a_#{function_name}()' #{f.path}}) do |i, o, e, t|
+        @read = o.gets.chomp
+        @value = t.value
+      end
+    end
+
+    sleep 5
+    expect(@read).to eq(value)
+    expect(@value).not_to eq(nil)
   end
 end

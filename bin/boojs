@@ -6,10 +6,16 @@ require 'phantomjs'
 #Parse
 ##########################################
 parser = OptionParser.new do |opts|
-  opts.banner = "Usage: boojs [-v file] [file]"
+  opts.banner = "Usage: boojs [-v file] [-e command] [file]"
 
+  #Verify this file
   opts.on "-v FILE" do |f|
     @vfile = f
+  end
+
+  #One-shot command
+  opts.on "-e COMMAND" do |c|
+    @c = c
   end
 end
 parser.parse!
@@ -22,8 +28,8 @@ if @vfile
   BooJS.verify File.read(@file)
 else
   if file
-    BooJS.pipe File.read(file)
+    BooJS.pipe File.read(file), @c
   else
-    BooJS.pipe
+    BooJS.pipe nil, @c
   end
 end

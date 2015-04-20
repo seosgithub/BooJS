@@ -24,12 +24,14 @@ gem install boojs
 # Usage
 #### SYNOPSIS
 ```sh
-boojs [-v file] [file]
+boojs [-v file] [-e statement] [file]
 ```
 
 #### DESCRIPTION
 The following options are available:
  * `-v` - Verify that a file contains no javascript syntax errors. Returns 0 if there are no errors.
+ * '-e' - Pass a javascript statement to execute after the file (if a file is provided). Will terminate pipe if this is provided.
+   calling the statement.
 
 #### EXAMPLES
 Open a standard headless javascript browser 'REPL'
@@ -40,6 +42,11 @@ Open a standard headless javascript browser 'REPL'
 Execute a file first, then enter pipe mode (repl like)
 ```sh
 (sh)>boojs code.js
+```
+
+Execute a statement, and then immediately exit.
+```sh
+(sh)>boojs -e "console.log(document);"
 ```
 
 Verify that a file contains no javascript errors
