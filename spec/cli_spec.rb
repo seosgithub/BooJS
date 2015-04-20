@@ -5,7 +5,7 @@ require 'securerandom'
 describe "CLI" do
   before(:each) do
     #Laziness
-    `ps -ax | grep phantomjs | grep -v phantomjs | awk '{print $1}' | xargs kill -9`
+    `ps -ax | grep phantomjs | grep -v grep | awk '{print $1}' | xargs kill -9`
   end
 
   it "Will not exit in pipe mode" do
@@ -19,31 +19,45 @@ describe "CLI" do
     expect(@finished).to eq(false)
   end
 
-  #it "Will exit in pipe mode if -t is set" do
-    #@finished = false
-    #Thread.new do
-      #`ruby -I./lib ./bin/boojs -t 2`
-      #@finished = true
-    #end
+  it "Will exit in pipe mode if -t is set" do
+    @finished = false
+    Thread.new do
+      system("ruby -I./lib ./bin/boojs -t 2")
+      @finished = true
+    end
 
-    #sleep 2
-    #expect(@finished).to eq(false)
-    #sleep 2
-    #expect(@finished).to eq(true)
-  #end
+    expect(@finished).to eq(false)
+    sleep 4
+    expect(@finished).to eq(true)
+  end
 
-  #it "Will exit in pipe mode if -t is set and evaluating script" do
-    #@finished = false
-    #Thread.new do
-      #`ruby -I./lib ./bin/boojs -t 2`
-      #@finished = true
-    #end
+  it "Will exit in execute mode if -t is set and return a 0 value" do
+    @finished = false
+    Thread.new do
+      @return = system %{ruby -I./lib ./bin/boojs -t 2 -e "console.log('hello');"}
+      @finished = true
+    end
 
-    #sleep 2
-    #expect(@finished).to eq(false)
-    #sleep 2
-    #expect(@finished).to eq(true)
-  #end
+    expect(@finished).to eq(false)
+    sleep 4
+    expect(@finished).to eq(true)
+
+    expect(@return).to eq(true)
+  end
+
+  it "Will exit in execute mode if -t is set and return a 1 value for a bad command" do
+    @finished = false
+    Thread.new do
+      @return = system %{ruby -I./lib ./bin/boojs -t 2 -e "no_such_variable;"}
+      @finished = true
+    end
+
+    expect(@finished).to eq(false)
+    sleep 4
+    expect(@finished).to eq(true)
+
+    expect(@return).not_to eq(true)
+  end
 
   it "Replies with pong$KEY when given ping('$key')" do
     key = SecureRandom.hex

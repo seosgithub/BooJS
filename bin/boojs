@@ -2,6 +2,7 @@
 require 'boojs'
 require 'optparse'
 require 'phantomjs'
+require 'timeout'
 
 #Parse
 ##########################################
@@ -17,19 +18,42 @@ parser = OptionParser.new do |opts|
   opts.on "-e COMMAND" do |c|
     @c = c
   end
+
+  #Timeout
+  opts.on "-t TIMEOUT" do |t|
+    @t = t.to_i
+  end
 end
 parser.parse!
 file = ARGV.pop
 ##########################################
 
 
+#Pipe with with a optional file and optional execute command
+pipe_proc = Proc.new do
+  if file
+    BooJS.pipe File.read(file), @c, !@t.nil?
+  else
+    BooJS.pipe nil, @c, !@t.nil?
+  end
+end
+
+#This takes a long time
+$phantomjs_path = Phantomjs.path
+
 #Run verify or run stdin/stdout mode?
 if @vfile
   BooJS.verify File.read(@file)
 else
-  if file
-    BooJS.pipe File.read(file), @c
+  if @t
+    begin
+      Timeout::timeout(@t) do
+        pipe_proc.call
+      end
+    rescue Timeout::Error
+      exit 0
+    end
   else
-    BooJS.pipe nil, @c
+    pipe_proc.call
   end
 end

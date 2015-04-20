@@ -24,12 +24,13 @@ gem install boojs
 # Usage
 #### SYNOPSIS
 ```sh
-boojs [-e statement] [-v file] [file]
+boojs [-e statement] [-t timeout] [-v file] [file]
 ```
 
 #### DESCRIPTION
 The following options are available:
- * `-e` - Pass a javascript statement to execute after the file (if a file is provided) and then immediately terminate.
+ * `-e` - Pass a javascript statement to execute after the file (if a file is provided) and then immediately terminate unless `-t` is set.
+ * `-t` - Close the program after N seconds have passed, unless an exception is raised
  * `-v` - Verify that a file contains no javascript syntax errors. Returns 0 if there are no errors.
 
 #### EXAMPLES
@@ -47,6 +48,12 @@ Execute a javascript statement, and then immediately exit. Exceptions will retur
 ```sh
 (sh)>boojs -e "console.log(document);"
 ```
+
+Execute a javascript statement, and then wait 4 seconds before exiting. Exceptions will return 1 and end execution early.
+```sh
+(sh)>boojs -e "console.log(document); -t 4"
+```
+
 
 Verify that a file contains no javascript runtime initialization errors
 ```sh

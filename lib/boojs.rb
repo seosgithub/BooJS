@@ -30,7 +30,7 @@ module BooJS
 
   #Optionally, accept code to inject and a command to run
   #If the command is nil, this is not executed as a oneshot
-  def self.pipe(str=nil, cmd=nil)
+  def self.pipe(str=nil, cmd=nil, will_timeout=false)
     js = %{
       var system = require('system');
       function __spec_ping(str) {
@@ -56,15 +56,18 @@ module BooJS
     #Repl
     if cmd
       js += "\n#{cmd}"
-      js += "\nphantom.exit(1)"
+
+      js += "\nphantom.exit(1)" unless will_timeout
     else
       js += "\nwhile (true) { var line = system.stdin.readLine(); eval(line); }"
     end
 
-    phantom = Phantomjs.path
     tmp = Tempfile.new(SecureRandom.hex)
     tmp.puts js
     tmp.close
-    exit system("#{phantom} #{tmp.path}")
+    ret = system("#{$phantomjs_path} #{tmp.path}")
+
+    tmp.unlink
+    exit ret
   end
 end
