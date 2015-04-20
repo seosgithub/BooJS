@@ -23,7 +23,6 @@ describe "CLI" do
     @finished = false
     Thread.new do
       `ruby -I./lib ./bin/boojs -t 2`
-      puts "done"
       @finished = true
     end
 
@@ -37,7 +36,6 @@ describe "CLI" do
     @finished = false
     Thread.new do
       `ruby -I./lib ./bin/boojs -t 2`
-      puts "done"
       @finished = true
     end
 
