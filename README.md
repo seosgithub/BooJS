@@ -33,22 +33,22 @@ The following options are available:
  * `-v` - Verify that a file contains no javascript syntax errors. Returns 0 if there are no errors.
 
 #### EXAMPLES
-Open a standard headless javascript browser 'REPL'
+Open a javascript pipe that reads from stdin, writes via console.log to stdout, prints exceptions via stderr, and exits with a return code of 1 if there are errors.
 ```sh
 (sh)>boojs
 ```
 
-Execute a file first, then enter pipe mode (repl like)
+Same as `boojs` but read the javascript file before reading from stdin.  (i.e. preload a javascript file into your environment)
 ```sh
 (sh)>boojs code.js
 ```
 
-Execute a statement, and then immediately exit.
+Execute a javascript statement, and then immediately exit. Exceptions will return 1.
 ```sh
 (sh)>boojs -e "console.log(document);"
 ```
 
-Verify that a file contains no javascript errors
+Verify that a file contains no javascript runtime initialization errors
 ```sh
 (sh)>boojs -v code.js
 (sh)>echo $?
