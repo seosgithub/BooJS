@@ -30,7 +30,7 @@ boojs [-v file] [-e statement] [file]
 #### DESCRIPTION
 The following options are available:
  * `-v` - Verify that a file contains no javascript syntax errors. Returns 0 if there are no errors.
- * '-e' - Pass a javascript statement to execute after the file (if a file is provided). Will terminate pipe if this is provided.
+ * `-e` - Pass a javascript statement to execute after the file (if a file is provided). Will terminate pipe if this is provided.
    calling the statement.
 
 #### EXAMPLES
