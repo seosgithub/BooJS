@@ -10,7 +10,7 @@
 </p>
 
 # What is this?
-A simple tool that allows you to execute javascript in the command line as if you were in a browser. Built on-top of [PhantomJS](phantomjs.org) and
+A simple tool that allows you to execute javascript in the command line as if you were in a browser. Built on-top of [PhantomJS](http://phantomjs.org/) and
 acts as a well-behaved unix tool.
 
 **Wait, isn't this just NodeJS? No, they are for different things. BooJS gives you the full DOM, you can call `document` in BooJS and import arbitrary browser javascript libraries.**
