@@ -54,7 +54,6 @@ Execute a javascript statement, and then wait 4 seconds before exiting. Exceptio
 (sh)>boojs -e "console.log(document);" -t 4
 ```
 
-
 Verify that a file contains no javascript runtime initialization errors
 ```sh
 (sh)>boojs -v code.js

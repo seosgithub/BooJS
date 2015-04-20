@@ -1,6 +1,8 @@
 require 'tempfile'
 require 'securerandom'
 require 'greenletters'
+require "net/http"
+require "uri"
 
 module BooJS
   def self.verify str
@@ -59,15 +61,94 @@ module BooJS
 
       js += "\nphantom.exit(1)" unless will_timeout
     else
-      js += "\nwhile (true) { var line = system.stdin.readLine(); eval(line); }"
+      #You can not use $stdin here, PhantomJS blocks on readLine
+      js += PhantomAsyncInput.code
+      #js += "\nwhile (true) { var line = system.stdin.readLine(); eval(line); }"
     end
 
+    #Create file to load
     tmp = Tempfile.new(SecureRandom.hex)
     tmp.puts js
     tmp.close
-    ret = system("#{$phantomjs_path} #{tmp.path}")
+
+    @input_sender_r, @input_sender_w = IO.pipe
+    
+    #Phantom JS Process
+    p = IO.popen("#{$phantomjs_path} #{tmp.path}")
+    loop do
+      rr, _ = select([p, STDIN]); e = rr[0]
+
+      #PhantomJS has written something
+      if e == p
+        res = e.readline
+
+        if res =~ /STDIN_PORT/
+          port = res.split(" ")[1].to_i
+          start_server(port, @input_sender_r)
+        else
+          puts res
+          $stdout.flush
+        end
+      end
+
+      #User has written to this program
+      if e == STDIN
+        @input_sender_w.puts e.readline
+      end
+    end
 
     tmp.unlink
     exit ret
+  end
+
+  def self.start_server port, pipe
+    #Server that manages inputs
+    Thread.new do
+      begin
+        loop do
+          rr, __ = IO.select([@input_sender_r], []); e = rr[0]
+
+          uri = URI.parse("http://localhost:#{port}")
+          Net::HTTP.post_form(uri, {:str => e.readline})
+        end
+      rescue Exception => e
+        $stderr.puts "Input server exception: #{e.inspect}"
+      end
+    end
+
+  end
+end
+
+#You can not use stdin readLine from PhantomJS because it blocks. This is a workaround where
+#commands are queued via the built-in server and then evaluated asynchronously via setInterval.
+#This method is used because exceptions that occur inside the calling context of the server response
+#cause the server to crash without notifying the application via phantom.onError
+module PhantomAsyncInput
+  def self.code
+    %{
+      __async_stdin_queue = []
+      __webserver = require('webserver');
+      __server = __webserver.create();
+      __port = Math.floor((Math.random() * 3000) + 3000); 
+      console.log("STDIN_PORT " + __port)
+      __service = __server.listen(__port, function(req, res) {
+        //Reply
+        var str = req.post.str
+        __async_stdin_queue.unshift(str)
+        res.write("ok");
+        res.close();
+      });
+
+      function __async_stdin_dequeue() {
+        //Nothing to process
+        if (__async_stdin_queue.length == 0) {
+            return;
+        }
+
+        var str = __async_stdin_queue.pop()
+        eval(str);
+      }
+      setInterval(__async_stdin_dequeue, 50);
+    }
   end
 end
