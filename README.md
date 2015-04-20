@@ -51,7 +51,7 @@ Execute a javascript statement, and then immediately exit. Exceptions will retur
 
 Execute a javascript statement, and then wait 4 seconds before exiting. Exceptions will return 1 and end execution early.
 ```sh
-(sh)>boojs -e "console.log(document); -t 4"
+(sh)>boojs -e "console.log(document);" -t 4
 ```
 
 
