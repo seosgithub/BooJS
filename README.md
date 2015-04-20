@@ -73,10 +73,6 @@ Verify that a file contains no javascript runtime initialization errors
 
 When you need to test javascript code that needs to run in a browser but don't necessarily need to test the UI components.
 
-### What's Fittr?
-
-Fittr is a SaaS company that focuses on providing personalized workouts and health information to individuals and corporations through phenomenal interfaces and algorithmic data-collection and processing.
-
 * * *
 
 ### Creator
