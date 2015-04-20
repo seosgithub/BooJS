@@ -30,7 +30,7 @@ boojs [-e statement] [-t timeout] [-v file] [file]
 #### DESCRIPTION
 The following options are available:
  * `-e` - Pass a javascript statement to execute after the file (if a file is provided) and then immediately terminate unless `-t` is set.
- * `-t` - Close the program after N seconds have passed, unless an exception is raised
+ * `-t` - Close the program after N seconds have passed, if an exception is raised before this, terminate immediately
  * `-v` - Verify that a file contains no javascript syntax errors. Returns 0 if there are no errors.
 
 #### EXAMPLES
