@@ -19,31 +19,31 @@ describe "CLI" do
     expect(@finished).to eq(false)
   end
 
-  it "Will exit in pipe mode if -t is set" do
-    @finished = false
-    Thread.new do
-      `ruby -I./lib ./bin/boojs -t 2`
-      @finished = true
-    end
+  #it "Will exit in pipe mode if -t is set" do
+    #@finished = false
+    #Thread.new do
+      #`ruby -I./lib ./bin/boojs -t 2`
+      #@finished = true
+    #end
 
-    sleep 2
-    expect(@finished).to eq(false)
-    sleep 2
-    expect(@finished).to eq(true)
-  end
+    #sleep 2
+    #expect(@finished).to eq(false)
+    #sleep 2
+    #expect(@finished).to eq(true)
+  #end
 
-  it "Will exit in pipe mode if -t is set and evaluating script" do
-    @finished = false
-    Thread.new do
-      `ruby -I./lib ./bin/boojs -t 2`
-      @finished = true
-    end
+  #it "Will exit in pipe mode if -t is set and evaluating script" do
+    #@finished = false
+    #Thread.new do
+      #`ruby -I./lib ./bin/boojs -t 2`
+      #@finished = true
+    #end
 
-    sleep 2
-    expect(@finished).to eq(false)
-    sleep 2
-    expect(@finished).to eq(true)
-  end
+    #sleep 2
+    #expect(@finished).to eq(false)
+    #sleep 2
+    #expect(@finished).to eq(true)
+  #end
 
   it "Replies with pong$KEY when given ping('$key')" do
     key = SecureRandom.hex
