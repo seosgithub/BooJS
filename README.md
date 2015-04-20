@@ -29,9 +29,8 @@ boojs [-e statement] [-v file] [file]
 
 #### DESCRIPTION
 The following options are available:
- * `-e` - Pass a javascript statement to execute after the file (if a file is provided). Will terminate pipe if this is provided.
+ * `-e` - Pass a javascript statement to execute after the file (if a file is provided) and then immediately terminate.
  * `-v` - Verify that a file contains no javascript syntax errors. Returns 0 if there are no errors.
-   calling the statement.
 
 #### EXAMPLES
 Open a standard headless javascript browser 'REPL'
