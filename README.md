@@ -82,6 +82,7 @@ There are a myriad issues with the *PhantomJS repl*; most notably, the *PhantomJ
   * Outputs special format characters even when not attached to a `tty`
   * Does not have well defined behavior which makes it a nightmare to integrate with
   * **Has no support for asynchronous stdin**
+  * Changes what it considers a newline based on the attached terminal (A QT quirk)
   * Is not a unix tool in any sense
 
 I don't think any of this is the `PhantomJS`'s team fault; it's just not their focus or target.
