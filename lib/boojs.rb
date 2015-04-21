@@ -77,7 +77,6 @@ module BooJS
     p = IO.popen("#{$phantomjs_path} #{tmp.path}")
     loop do
       rr, _ = select([p, STDIN]); e = rr[0]
-
       #PhantomJS has written something
       if e == p
         res = e.readline
@@ -99,6 +98,8 @@ module BooJS
 
     tmp.unlink
     exit ret
+  rescue EOFError => e
+    exit 1
   end
 
   def self.start_server port, pipe
@@ -115,8 +116,40 @@ module BooJS
         $stderr.puts "Input server exception: #{e.inspect}"
       end
     end
-
   end
+
+  #Show the lines of somethingl ike a source file will 
+  #show around center_num where it has n_expand lines around
+  #the center_num.  If you pass msg, it will output the 
+  #information next to the arrow
+  #  -----------------------------------------------
+  #  my_source.js
+  #  -----------------------------------------------
+  #  2| pretend_to_do_something();
+  #  3| console.log("hello world");
+  #  4| console.log("hello world again"]; <-------- [optional msg]
+  #  5| var x = 4;
+  #  6| var y = 3;
+  #  -----------------------------------------------
+  def dump_lines fn, center_num, n_expand, msg=nil
+    f = File.open(fn)
+    range = (center_num-n_expand)..(center_num+n_expand)
+  
+    puts "------------------------------------------------------------"
+    puts "#{File.basename(fn)}:#{center_num}"
+    puts "------------------------------------------------------------"
+    f.each_line.with_index do |line, index|
+      line.strip!
+      if range.include? index
+        if index == center_num
+          puts "#{index}| #{line} <------ " + (msg ? "[#{msg}]" : "")
+        else
+          puts "#{index}| #{line}"
+        end
+      end
+    end
+    puts "------------------------------------------------------------"
+  end 
 end
 
 #You can not use stdin readLine from PhantomJS because it blocks. This is a workaround where
