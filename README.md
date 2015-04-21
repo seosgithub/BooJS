@@ -10,7 +10,7 @@
 </p>
 
 # What is this?
-**BooJS** allows you to execute javascript on the command line as if you were in a browser. Built on-top of [PhantomJS](http://phantomjs.org/) and acts as a well-behaved unix tool. 
+**BooJS** allows you to execute javascript on the command line as if you were in a browser. It has well defined behavior that follows `unix` conventions and is built on-top of [PhantomJS](http://phantomjs.org/).
 
 **BooJS** was purpose built for our continuous integration infrastructure at [Fittr®](http://www.fittr.com).
 
