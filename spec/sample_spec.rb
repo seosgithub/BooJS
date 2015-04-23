@@ -57,7 +57,7 @@ RSpec.describe "Live Culture" do
         p.puts stim.gets
       end
 
-      res = p.readline
+      res = p.readline.strip
       expect(res).to equal("3")
     end
   end
