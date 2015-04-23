@@ -55,7 +55,7 @@ module BooJS
     end
 
     #PhantomJS does not support syntax checking, so we use V8 to do that
-    exit 0 unless @syntax_error
+    return 0 unless @syntax_error
     begin
       ctx = V8::Context.new
       ctx.load path
@@ -64,7 +64,7 @@ module BooJS
       dump_lines matches[:path], matches[:line].to_i, 10
     end
 
-    exit 1
+    return 1
   end
 
   #Optionally, accept code to inject and a command to run
@@ -216,7 +216,7 @@ module PhantomAsyncInput
         }
 
         var str = __async_stdin_queue.pop()
-        eval(str);
+        eval.call(window, str);
       }
       setInterval(__async_stdin_dequeue, 50);
     }

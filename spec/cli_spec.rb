@@ -15,7 +15,7 @@ describe "CLI" do
       @finished = true
     end
 
-    sleep 5
+    sleep 6
     expect(@finished).to eq(false)
   end
 
@@ -27,7 +27,7 @@ describe "CLI" do
     end
 
     expect(@finished).to eq(false)
-    sleep 4
+    sleep 6
     expect(@finished).to eq(true)
   end
 
@@ -39,7 +39,7 @@ describe "CLI" do
     end
 
     expect(@finished).to eq(false)
-    sleep 4
+    sleep 6
     expect(@finished).to eq(true)
 
     expect(@return).to eq(true)
@@ -53,7 +53,7 @@ describe "CLI" do
     end
 
     expect(@finished).to eq(false)
-    sleep 4
+    sleep 6
     expect(@finished).to eq(true)
 
     expect(@return).not_to eq(true)
@@ -68,7 +68,7 @@ describe "CLI" do
       end
     end
 
-    sleep 5
+    sleep 6
     expect(@back).to eq("pong"+key)
   end
 
@@ -85,7 +85,7 @@ describe "CLI" do
       end
     end
 
-    sleep 5
+    sleep 6
     expect(@backA).to eq("pong"+keyA)
     expect(@backB).to eq("pong"+keyB)
   end
@@ -99,7 +99,7 @@ describe "CLI" do
       end
     end
 
-    sleep 5
+    sleep 6
     expect(@error.length).not_to eq(0)
     expect(@out).to eq(nil)
   end
@@ -113,7 +113,7 @@ describe "CLI" do
       end
     end
 
-    sleep 5
+    sleep 6
     expect(@exit.exitstatus).to eq(1)
   end
 
@@ -128,7 +128,7 @@ describe "CLI" do
       end
     end
 
-    sleep 5
+    sleep 6
     expect(@read).to eq("hello")
   end
 
@@ -140,7 +140,7 @@ describe "CLI" do
       end
     end
 
-    sleep 5
+    sleep 6
     expect(@read).to eq("hello")
     expect(@value).not_to eq(nil)
   end
@@ -165,7 +165,7 @@ describe "CLI" do
       end
     end
 
-    sleep 5
+    sleep 6
     expect(@read).to eq(value)
     expect(@value).not_to eq(nil)
   end

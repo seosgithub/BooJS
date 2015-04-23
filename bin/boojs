@@ -43,8 +43,12 @@ $phantomjs_path = Phantomjs.path
 
 #Run verify or run stdin/stdout mode?
 if @vfile
-  BooJS.verify File.read(@vfile)
+  exit BooJS.verify File.read(@vfile)
 else
+  if file
+    exit 1 unless BooJS.verify(File.read(file)) == 0
+  end
+
   if @t
     begin
       Timeout::timeout(@t) do
