@@ -43,7 +43,7 @@ $phantomjs_path = Phantomjs.path
 
 #Run verify or run stdin/stdout mode?
 if @vfile
-  BooJS.verify File.read(@file)
+  BooJS.verify File.read(@vfile)
 else
   if @t
     begin

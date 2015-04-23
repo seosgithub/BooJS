@@ -3,31 +3,68 @@ require 'securerandom'
 require 'greenletters'
 require "net/http"
 require "uri"
+require "open3"
+require 'therubyracer'
 
 module BooJS
   def self.verify str
-    phantom = Phantomjs.path
-
     #Create tmp file
     tmp = Tempfile.new(SecureRandom.hex)
-    tmp.puts %{
-      phantom.onError = function(msg, trace) {
-        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        console.log("PhantomJS Error");
-        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        console.log(msg);
-        trace.forEach(function(t) {
-          console.log(t.file + ': line ' + t.line );
-        })
-        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        phantom.exit(1);
+    path = tmp.path
+    tmp.close!
+    File.open path, "w" do |f|
+      f.puts %{
+        phantom.onError = function(msg, trace) {
+          console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+          console.log("PhantomJS Error");
+          console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+          console.log(msg);
+          trace.forEach(function(t) {
+            console.log(t.file + ': line ' + t.line );
+          })
+          console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+          phantom.exit(1);
+        }
       }
-    }
-    tmp.puts str
-    tmp.puts "phantom.exit(0)"
-    tmp.close
+      f.puts str
+      f.puts "phantom.exit(0)"
+    end
 
-    system("phantomjs #{tmp.path} 2>&1") or raise "Verifying failed"
+    begin
+      #Do we have a syntax error?
+      @syntax_error = false
+      Timeout.timeout(8) do
+        Open3.popen3 "#{$phantomjs_path} #{path}" do |_, out, err, _|
+          begin
+            loop do
+              rr, ww = select([out, err], []); e = rr[0]
+
+              #PhantomJS wrote to stderr
+              r = e.readline
+              if r =~ /SyntaxError/
+                @syntax_error = true
+                raise "syntax_error" #Break out
+              end
+            end
+          ensure
+            Process.kill 9, p.pid
+          end
+        end
+      end
+    rescue => e
+    end
+
+    #PhantomJS does not support syntax checking, so we use V8 to do that
+    exit 0 unless @syntax_error
+    begin
+      ctx = V8::Context.new
+      ctx.load path
+    rescue V8::Error => e
+      matches = e.message.match(/.*? at (?<path>.*?):(?<line>.*?):.*?$/)
+      dump_lines matches[:path], matches[:line].to_i, 10
+    end
+
+    exit 1
   end
 
   #Optionally, accept code to inject and a command to run
@@ -131,24 +168,24 @@ module BooJS
   #  5| var x = 4;
   #  6| var y = 3;
   #  -----------------------------------------------
-  def dump_lines fn, center_num, n_expand, msg=nil
+  def self.dump_lines fn, center_num, n_expand, msg=nil
     f = File.open(fn)
     range = (center_num-n_expand)..(center_num+n_expand)
   
-    puts "------------------------------------------------------------"
-    puts "#{File.basename(fn)}:#{center_num}"
-    puts "------------------------------------------------------------"
+    $stderr.puts "------------------------------------------------------------"
+    $stderr.puts "#{File.basename(fn)}:#{center_num}"
+    $stderr.puts "------------------------------------------------------------"
     f.each_line.with_index do |line, index|
       line.strip!
       if range.include? index
         if index == center_num
-          puts "#{index}| #{line} <------ " + (msg ? "[#{msg}]" : "")
+          $stderr.puts "#{index}| #{line} <------ " + (msg ? "[#{msg}]" : "")
         else
-          puts "#{index}| #{line}"
+          $stderr.puts "#{index}| #{line}"
         end
       end
     end
-    puts "------------------------------------------------------------"
+    $stderr.puts "------------------------------------------------------------"
   end 
 end
 
