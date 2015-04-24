@@ -87,6 +87,10 @@ module BooJS
         system.stderr.writeLine("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         phantom.exit(1);
       }
+
+      function booPing() {
+        console.log("pong");
+      }
     }
     
     #Any code the user wanted

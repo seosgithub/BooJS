@@ -60,6 +60,9 @@ Verify that a file contains no javascript runtime initialization errors
 0
 ```
 
+#### Additional notes
+  * Calling `booPing()` will immediately return `"pong"` to `stdout`. You may use this to know when boo has started up fully.
+
 ## Requirements
 
 - Ruby 2.1 or Higher
