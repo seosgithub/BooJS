@@ -80,7 +80,7 @@ Verify that a file contains no javascript runtime initialization errors
 
 ---
 
-## FAQ
+## FAQ & Rants
 
 ### Wait, isn't this just NodeJS?
 No, they are for different things. BooJS gives you the full DOM, you can call `document` in BooJS and import arbitrary browser javascript libraries.
@@ -96,8 +96,10 @@ There are a myriad issues with the *PhantomJS repl*; most notably, the *PhantomJ
 
 I don't think any of this is the `PhantomJS`'s team fault; it's just not their focus or target.
 
-### When should I use boojs?
+### Why would I use BooJS over my browser console?
+You wouldn't, if you preferred that.  *BooJS* was designed for continuous integration environments and has evolved into fun for shell scripting (i.e. `netcatesque`) and even dynamic website page analysis.  Some users also prefer CLI over GUI.
 
+### When should I use boojs?
 When you need to test javascript code that needs to run in a browser but don't necessarily need to test the UI components.
 
 ### What's Fittr?
