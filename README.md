@@ -15,7 +15,7 @@
 **BooJS** was purpose built for our continuous integration infrastructure at [Fittr®](http://www.fittr.com).
 
 # Setup
-``js
+```js
 #Setup
 gem install boojs
 ```
