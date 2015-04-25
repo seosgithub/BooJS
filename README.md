@@ -99,6 +99,9 @@ I don't think any of this is the `PhantomJS`'s team fault; it's just not their f
 ### Why would I use BooJS over my browser console?
 You wouldn't, if you preferred that.  *BooJS* was designed for continuous integration environments and has evolved into fun for shell scripting (i.e. `netcatesque`) and even dynamic website page analysis.  Some users also prefer CLI over GUI.
 
+### ...Capistrano?
+Capistrano is great for integration tests for behaviors; many users prefer to use both `BooJS` for the javascript layer and then `Capistrano` for behavioral testing, especially with frameworks like `cucumber`.  `BooJS` is faster to boot and and more determinant than `Capistrano` while `Capistrano` is able to verify behavior across browsers and visuals. They go well togeather.
+
 ### When should I use boojs?
 When you need to test javascript code that needs to run in a browser but don't necessarily need to test the UI components.
 
