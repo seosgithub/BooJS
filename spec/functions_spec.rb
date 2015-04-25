@@ -36,4 +36,32 @@ RSpec.describe "JS Functions" do
       expect(@err.string.strip).to eq("hello world")
     end
   end
+
+  it "booPing writes 'pong' to stdout" do
+    @out = StringIO.new
+
+    pipe = Open3.popen3("ruby -Ilib ./bin/boojs") do |i, o, e, t|
+      begin
+        Timeout::timeout(5) do
+          i.puts "booPing()"
+          loop do
+            res = select [o], []
+
+            if res[0].include? o
+              @out.write o.readline
+            end
+          end
+        end
+      rescue Timeout::Error
+      rescue EOFError
+      ensure
+        begin
+          Process.kill(:KILL, t[:pid])
+        rescue Errno::ESRCH
+        end
+      end
+
+      expect(@out.string.strip).to eq("pong")
+    end
+  end
 end

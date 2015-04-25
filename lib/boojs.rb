@@ -88,6 +88,10 @@ module BooJS
         phantom.exit(1);
       }
 
+      console.error = function(msg) {
+        system.stderr.writeLine(msg)
+      };
+
       function booPing() {
         console.log("pong");
       }
