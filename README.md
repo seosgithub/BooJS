@@ -15,14 +15,14 @@
 **BooJS** was purpose built for our continuous integration infrastructure at [Fittr®](http://www.fittr.com).
 
 # Setup
-```sh
+``js
 #Setup
 gem install boojs
 ```
 
 # Usage
 #### SYNOPSIS
-```sh
+```js
 boojs [-e statement] [-t timeout] [-v file] [file]
 ```
 
@@ -34,29 +34,31 @@ The following options are available:
 
 #### EXAMPLES
 Open a javascript pipe that reads from stdin, writes via console.log to stdout, prints exceptions via stderr, and exits with a return code of 1 if there are errors.
-```sh
+```js
 (sh)>boojs
 console.log("Hello world!");           //Output to $stdout
 console.error("Goodbye cruel world!"); //Output to $stderr
 ```
 
 Same as `boojs` but read the javascript file before reading from stdin.  (i.e. preload a javascript file into your environment)
-```sh
-(sh)>boojs code.js
+```js
+(sh)>boojs jquery.js
+$("body").html("<h1>Hello</h1>");
+console.log($("body").html())
 ```
 
 Execute a javascript statement, and then immediately exit. Exceptions will return 1.
-```sh
+```js
 (sh)>boojs -e "console.log(document);"
 ```
 
 Execute a javascript statement, and then wait 4 seconds before exiting. Exceptions will return 1 and end execution early.
-```sh
+```js
 (sh)>boojs -e "console.log(document);" -t 4
 ```
 
 Verify that a file contains no javascript runtime initialization errors
-```sh
+```js
 (sh)>boojs -v code.js
 (sh)>echo $?
 0
