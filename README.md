@@ -36,6 +36,8 @@ The following options are available:
 Open a javascript pipe that reads from stdin, writes via console.log to stdout, prints exceptions via stderr, and exits with a return code of 1 if there are errors.
 ```sh
 (sh)>boojs
+console.log("Hello world!");           //Output to $stdout
+console.error("Goodbye cruel world!"); //Output to $stderr
 ```
 
 Same as `boojs` but read the javascript file before reading from stdin.  (i.e. preload a javascript file into your environment)
