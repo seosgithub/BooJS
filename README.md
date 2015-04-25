@@ -66,7 +66,7 @@ Verify that a file contains no javascript runtime initialization errors
 
 #### NOTES
   * Calling `booPing()` will immediately return `"pong"` to `stdout`. You may use this to know when boo has started up fully.
-  * `console.error(msg)` will output to `$stderr`.  `console.log(msg)` will output to `$stodut`.
+  * `console.error(msg)` will output to `$stderr`.  `console.log(msg)` will output to `$stdout`.
 
 ## Requirements
 
