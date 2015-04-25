@@ -103,7 +103,7 @@ You wouldn't, if you preferred that.  *BooJS* was designed for continuous integr
 Capistrano is great for integration tests for behaviors; many users prefer to use both `BooJS` for the javascript layer and then `Capistrano` for behavioral testing, especially with frameworks like `cucumber`.  `BooJS` is faster to boot and and more determinant than `Capistrano` while `Capistrano` is able to verify behavior across browsers and visuals. They go well togeather.
 
 ### Why Ruby?
-Ruby has many shortcomings. But it is an excellent language for writing tools in. Ruby has a culture of testing, a mature gem database that contains many *js* parsers, increadible syntax that includes N-embeddable strings within strings without ugly escape sequences, and good support for `POSIX` interfaces.
+Ruby has many shortcomings; Nonetheless, ruby is an excellent language for writing tools in. Ruby has a culture of testing, a mature gem database that contains many *js* parsers, increadible syntax that includes N-embeddable strings within strings without ugly escape sequences, and good support for `POSIX` interfaces.
 
 Did you know that *WebKit* uses *Ruby* to pre-compile it's bytecode interpreter *LLInt*? https://trac.webkit.org/browser/releases/Apple/Safari%206.0.2/JavaScriptCore/offlineasm
 
