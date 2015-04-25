@@ -88,6 +88,7 @@ module BooJS
         phantom.exit(1);
       }
 
+      //@maboiteaspam (https://github.com/ariya/phantomjs/issues/11961)
       console.error = function(msg) {
         system.stderr.writeLine(msg)
       };
