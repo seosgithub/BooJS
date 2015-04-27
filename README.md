@@ -31,7 +31,6 @@ The following options are available:
  * `-e` - Pass a javascript statement to execute after the file (if a file is provided) and then immediately terminate unless `-t` is set.
  * `-t` - Close the program after N seconds have passed, if an exception is raised before this, terminate immediately
  * `-v` - Verify that a file contains no javascript syntax errors. Returns 0 if there are no errors.
- * `-p` - Outputs the PID of the spawned sibling process as the first line of stdout. Used for unit specs.
 
 #### EXAMPLES
 Open a javascript pipe that reads from stdin, writes via console.log to stdout, prints exceptions via stderr, and exits with a return code of 1 if there are errors.
