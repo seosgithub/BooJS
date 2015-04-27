@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'boojs'
+require File.join(File.dirname(__FILE__), "../lib/boojs")
 require 'optparse'
 require 'phantomjs'
 require 'timeout'
@@ -23,6 +23,13 @@ parser = OptionParser.new do |opts|
   opts.on "-t TIMEOUT" do |t|
     @t = t.to_i
   end
+
+  #The first line of stdout will be the PID of the PhantomJS process
+  #This is for a spec that tests to make sure the PhanomJS process is
+  #correctly terminated when it is spawned
+  opts.on "-p" do
+    @output_phantomjs_pid = true
+  end
 end
 parser.parse!
 file = ARGV.pop
@@ -32,9 +39,9 @@ file = ARGV.pop
 #Pipe with with a optional file and optional execute command
 pipe_proc = Proc.new do
   if file
-    BooJS.pipe File.read(file), @c, !@t.nil?
+    BooJS.pipe File.read(file), @c, !@t.nil?, @output_phantomjs_pid
   else
-    BooJS.pipe nil, @c, !@t.nil?
+    BooJS.pipe nil, @c, !@t.nil?, @output_phantomjs_pid
   end
 end
 

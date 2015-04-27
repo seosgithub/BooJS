@@ -1,3 +1,4 @@
+$stdout.sync = true
 require 'tempfile'
 require 'securerandom'
 require 'greenletters'
@@ -69,7 +70,7 @@ module BooJS
 
   #Optionally, accept code to inject and a command to run
   #If the command is nil, this is not executed as a oneshot
-  def self.pipe(str=nil, cmd=nil, will_timeout=false)
+  def self.pipe(str=nil, cmd=nil, will_timeout=false, output_phantomjs_pid=false)
     js = %{
       var system = require('system');
       function __spec_ping(str) {
@@ -120,26 +121,41 @@ module BooJS
     @input_sender_r, @input_sender_w = IO.pipe
     
     #Phantom JS Process
-    p = IO.popen("#{$phantomjs_path} #{tmp.path}")
-    loop do
-      rr, _ = select([p, STDIN]); e = rr[0]
-      #PhantomJS has written something
-      if e == p
-        res = e.readline
+    begin
+      p = IO.popen("#{$phantomjs_path} #{tmp.path}")
 
-        if res =~ /STDIN_PORT/
-          port = res.split(" ")[1].to_i
-          start_server(port, @input_sender_r)
-        else
-          puts res
-          $stdout.flush
+      #We are going to do a loop back (ready to rcv) to wait for the JS to respond before outputing the spec PID
+      #So that in the specs, we have a reliable way of testing the process execution as ending this process
+      #before the child process ends, will termiante the spawned process (PhantomJS) by default but not if it's
+      #kept alive for a while (which we handle via sending it an INT in the ensure)
+      if output_phantomjs_pid
+        @input_sender_w.puts "booPing();"
+        res = p.readline
+        puts p.pid
+      end
+
+      loop do
+        rr, _ = select([p, STDIN]); e = rr[0]
+        #PhantomJS has written something
+        if e == p
+          res = e.readline
+
+          if res =~ /STDIN_PORT/
+            port = res.split(" ")[1].to_i
+            start_server(port, @input_sender_r)
+          else
+            puts res
+            $stdout.flush
+          end
+        end
+
+        #User has written to this program
+        if e == STDIN
+          @input_sender_w.puts e.readline
         end
       end
-
-      #User has written to this program
-      if e == STDIN
-        @input_sender_w.puts e.readline
-      end
+    ensure
+      Process.kill :INT, p.pid
     end
 
     tmp.unlink
