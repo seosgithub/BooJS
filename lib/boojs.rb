@@ -48,7 +48,7 @@ module BooJS
               end
             end
           ensure
-            Process.kill 9, p.pid
+            Process.kill :INT, p.pid
           end
         end
       end
@@ -63,6 +63,7 @@ module BooJS
     rescue V8::Error => e
       matches = e.message.match(/.*? at (?<path>.*?):(?<line>.*?):.*?$/)
       dump_lines matches[:path], matches[:line].to_i, 10
+      system("node #{path}") #The node tool has a lot more info (ignore if they don't have it)
     end
 
     return 1
