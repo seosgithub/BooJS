@@ -1,3 +1,3 @@
 module BooJS
-  VERSION = '0.0.29'
+  VERSION = '0.0.30'
 end
