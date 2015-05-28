@@ -72,8 +72,8 @@ Verify that a file contains no javascript runtime initialization errors
 #### Local Storage Persistance
 Every restart of boojs will cause `localStorage` to be reset. There is a bug where multiple instances of `boojs` will all *share* the same
 instance of `localStorage`, so if you open multiple copies of boojs, you are guaranteed to delete `localStorage` of all boojs instances.
-You may restart the boojs intsance without deleting local storage via sending `#$__RESTART__` directly to `stdin` of the boojs instance as
-it's own line. You may then wait for the reply `#$__RESTART_OK__`. At this point, boojs will have restarted with a fresh instance except
+You may restart the boojs intsance without deleting local storage via sending `$__RESTART__` directly to `stdin` of the boojs instance as
+it's own line. You may then wait for the reply `$__RESTART_OK__`. At this point, boojs will have restarted with a fresh instance except
 that `localStorage` will still be intact.
 
 ## Requirements

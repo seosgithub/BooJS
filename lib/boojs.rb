@@ -33,6 +33,7 @@ module BooJS
 
     begin
       #Do we have a syntax error?
+      #Open a pipe and check if syntax_error
       @syntax_error = false
       Timeout.timeout(8) do
         Open3.popen3 "#{$phantomjs_path} #{path}" do |_, out, err, _|
@@ -69,10 +70,16 @@ module BooJS
     return 1
   end
 
+  #Restart request
+  class PipeRestart < Exception
+  end
+
   #Optionally, accept code to inject and a command to run
   #If the command is nil, this is not executed as a oneshot
   def self.pipe(str=nil, cmd=nil, will_timeout=false, output_phantomjs_pid=false)
     js = %{
+      //Clear localStorage
+
       var system = require('system');
       function __spec_ping(str) {
         system.stdout.writeLine("pong"+str)
@@ -121,18 +128,32 @@ module BooJS
 
     @input_sender_r, @input_sender_w = IO.pipe
     
+    #Set to true on restarts, for knowing whether to output $__RESTART_OK__ when the restart finishes
+    pipe_restart = false
     #Phantom JS Process
     begin
       p = IO.popen("#{$phantomjs_path} #{tmp.path}")
+
+      #If it's not a pipe restart, then clear local storage
+      unless pipe_restart
+        @input_sender_w.puts "localStorage.clear();"
+      end
 
       #We are going to do a loop back (ready to rcv) to wait for the JS to respond before outputing the spec PID
       #So that in the specs, we have a reliable way of testing the process execution as ending this process
       #before the child process ends, will termiante the spawned process (PhantomJS) by default but not if it's
       #kept alive for a while (which we handle via sending it an INT in the ensure)
-      if output_phantomjs_pid
+      if output_phantomjs_pid and not pipe_restart #Dont re-emit the PID on pipe restarts
         @input_sender_w.puts "booPing();"
         res = p.readline
         puts p.pid
+      end
+
+      #Tell stdout that we did restart
+      if pipe_restart
+        pipe_restart = false
+        puts "$__RESTART_OK__"
+        $stdout.flush
       end
 
       loop do
@@ -152,9 +173,18 @@ module BooJS
 
         #User has written to this program
         if e == STDIN
-          @input_sender_w.puts e.readline
+          res = e.readline
+          if res == "$__RESTART__\n"
+            pipe_restart = true
+            raise PipeRestart
+          else
+            @input_sender_w.puts res
+          end
         end
       end
+    rescue PipeRestart
+      Process.kill :INT, p.pid
+      retry
     ensure
       Process.kill :INT, p.pid
     end
