@@ -76,6 +76,10 @@ You may restart the boojs intsance without deleting local storage via sending `$
 it's own line. You may then wait for the reply `$__RESTART_OK__`. At this point, boojs will have restarted with a fresh instance except
 that `localStorage` will still be intact.
 
+**You must fully drain the `stdout` pipe of *boojs* before attempting to `$__RESTART__`. If you fail to do so, your commands may execute after
+`$__RESTART__` has executed because `$__RESTART__` is executed asynchronously. You should send `booPing()`, wait for a reply of `pong`, and then
+send the `$__RESTART__` command.
+
 ## Requirements
 
 - Ruby 2.1 or Higher
