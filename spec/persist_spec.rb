@@ -51,17 +51,29 @@ RSpec.describe "Persist" do
 
   end
 
-  it "Does persist during restarts" do
+  it "Does persist localStorage during restarts, but not variables" do
     Open3.popen3 "ruby -Ilib ./bin/boojs" do |i, o, e, t|
       begin
-        i.puts "localStorage.setItem('foo', 'bar');"
+        secret = SecureRandom.hex
+        i.puts "localStorage.setItem('#{secret}', '#{secret}');"
+        i.puts "var x = 3;"
+        i.puts "console.log(typeof x === 'undefined');"
+        res = o.readline
+        expect(res).to eq("false\n")
+
+        #Now restart
         i.puts "$__RESTART__"
         res = o.readline
         expect(res).to eq("$__RESTART_OK__\n")
 
-        i.puts "console.log(localStorage.getItem('foo'))"
+        i.puts "console.log(localStorage.getItem('#{secret}'))"
         res = o.readline
-        expect(res).to eq("bar\n")
+        expect(res).to eq("#{secret}\n")
+
+        #X should no longer be set as we restart
+        i.puts "console.log(typeof x === 'undefined');"
+        res = o.readline
+        expect(res).to eq("true\n")
       ensure
         begin
           Process.kill :INT, t[:pid]

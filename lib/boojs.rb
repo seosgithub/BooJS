@@ -149,13 +149,6 @@ module BooJS
         puts p.pid
       end
 
-      #Tell stdout that we did restart
-      if pipe_restart
-        pipe_restart = false
-        puts "$__RESTART_OK__"
-        $stdout.flush
-      end
-
       loop do
         rr, _ = select([p, STDIN]); e = rr[0]
         #PhantomJS has written something
@@ -164,7 +157,17 @@ module BooJS
 
           if res =~ /STDIN_PORT/
             port = res.split(" ")[1].to_i
-            start_server(port, @input_sender_r)
+            unless @in_port
+              start_server(@input_sender_r)
+            end
+            @in_port = port
+
+            #Tell stdout that we did restart
+            if pipe_restart
+              pipe_restart = false
+              puts "$__RESTART_OK__"
+              $stdout.flush
+            end
           else
             puts res
             $stdout.flush
@@ -175,6 +178,8 @@ module BooJS
         if e == STDIN
           res = e.readline
           if res == "$__RESTART__\n"
+            #You must wait several seconds for fsync
+            sleep 2
             pipe_restart = true
             raise PipeRestart
           else
@@ -195,14 +200,14 @@ module BooJS
     exit 1
   end
 
-  def self.start_server port, pipe
+  def self.start_server pipe
     #Server that manages inputs
     Thread.new do
       begin
         loop do
           rr, __ = IO.select([@input_sender_r], []); e = rr[0]
 
-          uri = URI.parse("http://localhost:#{port}")
+          uri = URI.parse("http://localhost:#{@in_port}")
           Net::HTTP.post_form(uri, {:str => e.readline})
         end
       rescue Exception => e
