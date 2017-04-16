@@ -112,10 +112,6 @@ I don't think any of this is the `PhantomJS`'s team fault; it's just not their f
 ### When should I use boojs?
 When you need to test javascript code that needs to run in a browser but don't necessarily need to test the UI components.
 
-### What's Fittr?
-
-Fittr is a SaaS company that focuses on providing personalized workouts and health information to individuals and corporations through phenomenal interfaces and algorithmic data-collection and processing.
-
 * * *
 
 ### Creator
