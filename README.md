@@ -2,7 +2,6 @@
 
 [![Gem Version](https://badge.fury.io/rb/boojs.svg)](http://badge.fury.io/rb/boojs)
 [![Build Status](https://travis-ci.org/sotownsend/BooJS.svg?branch=master)](https://travis-ci.org/sotownsend/BooJS)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/sotownsend/BooJS/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/BooJS/blob/master/LICENSE)
 
 <p align="center">
@@ -11,8 +10,6 @@
 
 # What is this?
 **BooJS** allows you to execute javascript on the command line as if you were in a browser. It has well defined behavior that follows `unix` conventions and is built on-top of [PhantomJS](http://phantomjs.org/).
-
-**BooJS** was purpose built for our continuous integration infrastructure at [Fittr®](http://www.fittr.com).
 
 # Setup
 ```js
@@ -112,15 +109,11 @@ I don't think any of this is the `PhantomJS`'s team fault; it's just not their f
 ### When should I use boojs?
 When you need to test javascript code that needs to run in a browser but don't necessarily need to test the UI components.
 
-### What's Fittr?
-
-Fittr is a SaaS company that focuses on providing personalized workouts and health information to individuals and corporations through phenomenal interfaces and algorithmic data-collection and processing.
-
 * * *
 
 ### Creator
 
-- [Seo Townsend](http://github.com/sotownsend) ([@seotownsend](https://twitter.com/seotownsend))
+- [So Townsend](http://github.com/sotownsend)
 
 ## License
 
